@@ -1,6 +1,6 @@
 namespace DiscordBot.Models.Image;
 
-public class GenerateImageRequest
+public class ImageRequest
 {
     [JsonPropertyName("prompt")]
     public required string Prompt { get; set; }

@@ -1,6 +1,6 @@
 namespace DiscordBot.Models.Image;
 
-public class GenerateImageResponse
+public class ImageResponse
 {
     [JsonPropertyName("created")]
     public required int Created { get; set; }

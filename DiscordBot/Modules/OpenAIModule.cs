@@ -105,6 +105,37 @@ public class OpenAIModule : InteractionModuleBase<SocketInteractionContext>
         }
     }
 
+    [DefaultMemberPermissions(GuildPermission.SendMessages)]
+    [SlashCommand("editimage", "edit an image by prompt input")]
+    public async Task EditImage(IAttachment attachment, string prompt, [Choice("small", "256x256")][Choice("medium", "512x512")][Choice("large", "1024x1024")] string size = "1024x1024", [Choice("1", 1)]
+        [Choice("2", 2)][Choice("3", 3)]int amount = 1)
+    {
+        await DeferAsync();
+
+        try
+        {
+            var result = await _image.GetEditedImage(attachment, prompt, Context.User.Username, size, amount);
+            await FollowupWithFilesAsync(result, prompt.ToBoldItalics());
+        }
+        catch (HttpRequestException exception)
+        {
+            var errorMessage = MapResponseToHttpException(exception);
+            await FollowupAsync(errorMessage, ephemeral: true);
+        }
+        catch (InvalidOperationException exception)
+        {
+            await FollowupAsync(exception.Message, ephemeral: true);
+        }
+        catch (ArgumentNullException exception)
+        {
+            await FollowupAsync(exception.Message, ephemeral: true);
+        }
+        catch (Exception)
+        {
+            await FollowupAsync("An unknown error occured.", ephemeral: true);
+        }
+    }
+
     private string GetConversationId(int type)
     {
         // Allows for both shared and personal conversation among users with chat-gpt.
@@ -120,7 +151,7 @@ public class OpenAIModule : InteractionModuleBase<SocketInteractionContext>
                 "API key expired or invalid, or maximum amount of requests has been hit. Contact bot owner.",
             HttpStatusCode.Forbidden => "Content flagged due to policy violations.",
             HttpStatusCode.NotFound => "Requested resources not found.",
-            HttpStatusCode.TooManyRequests => "Too many concurrent attempts, try again later.",
+            HttpStatusCode.TooManyRequests => "Too many concurrent attempts, wait before you try again later.",
             HttpStatusCode.InternalServerError => "Server error, try again later.",
             _ => "Unknown error occured, try again later."
         };
