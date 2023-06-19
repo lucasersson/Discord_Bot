@@ -4,11 +4,15 @@ public class ImageService
 {
     private readonly HttpClient _openAiClient;
     private readonly HttpClient _staticContentClient;
+    private readonly string _requiredFileFormat;
+    private readonly int _maxSize;
 
-    public ImageService(IHttpClientFactory factory)
+    public ImageService(IHttpClientFactory factory, IConfiguration configuration)
     {
         _openAiClient = factory.CreateClient("OpenAI");
         _staticContentClient = factory.CreateClient("StaticContent");
+        _requiredFileFormat = configuration.GetValue<string>("openai:images:requiredFileFormat") ?? "png";
+        _maxSize = configuration.GetValue<int>("openai:images:maxSize");
     }
 
     public async Task<IEnumerable<FileAttachment>> GetGeneratedImageAsync(string prompt, string name, string size, int amount)
@@ -108,14 +112,14 @@ public class ImageService
         return height == width;
     }
 
-    private static async Task ValidateAttachmentProperties(IAttachment attachment)
+    private async Task ValidateAttachmentProperties(IAttachment attachment)
     {
-        if (!attachment.Filename.EndsWith(".png"))
+        if (!attachment.Filename.EndsWith(_requiredFileFormat))
         {
             throw new InvalidOperationException("Image must be a .png");
         }
 
-        if (attachment.Size > 4000000)
+        if (attachment.Size > _maxSize)
         {
             throw new InvalidOperationException("Image size can't exceed 4MB.");
         }
