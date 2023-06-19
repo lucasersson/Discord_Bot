@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace DiscordBot.Modules;
 
 [Group("openai", "collection of commands for using openai services.")]

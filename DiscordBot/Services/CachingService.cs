@@ -1,5 +1,3 @@
-using System.Net;
-
 namespace DiscordBot.Services;
 
 public class CachingService
