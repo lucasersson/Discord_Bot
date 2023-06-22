@@ -16,7 +16,13 @@ After installation, add another environment variable called 'DOTNET_ENVIRONMENT'
 Create a new account or use an existing for OpenAI's API. Copy the token and add in in your environment variables under the name 'OPENAIAPI_TOKEN'.
 
 4. Setup repository
-Clone this repository and navigate to its root directory using a terminal. Enter the command 'dotnet run --project DiscordBot', and the application should start.
+Clone this repository and add your server(s) id to the 'guilds' section in appsettings.json, with a name of your choice, and the value is the server id which you can obtain from discord directly by right clicking your server icon.
+
+5. Start the bot
+Start the bot by launching the console application using your ide or running the command 'dotnet run --project DiscordBot' from the repositorys root directory.
+
+6. Try commands
+Enter a slash (/), and the commands should show up under the group name 'openai'. Enjoy!
 
 ---
 
