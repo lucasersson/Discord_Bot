@@ -10,20 +10,13 @@ Copy the generated URL, and paste it in your browser. Select the server in which
 
 2. Install .Net SDK  
 To use the bot, you need to install the [.Net 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) for windows, linux, or macOS.
-After installation, add another environment variable called 'DOTNET_ENVIRONMENT', and set the value to 'development'.
 
 3. Add OpenAI token to environment variables.  
 Create a new account or use an existing for OpenAI's API. Copy the token and add in in your environment variables under the name 'OPENAIAPI_TOKEN'.
 
-4. Setup repository  
-Clone this repository and add your server(s) id to the 'guilds' section in appsettings.json, with a name of your choice, and the value is the server id which you can obtain from discord directly by right clicking your server icon.
+4. Start the bot  
+Start the bot by cloning the repository and then launching the console application using your ide or running the command 'dotnet run --project DiscordBot' from the repositorys root directory.
 
-5. Start the bot  
-Start the bot by launching the console application using your ide or running the command 'dotnet run --project DiscordBot' from the repositorys root directory.
+5. Try commands
+The commands should be registered to your discord server pretty quickly, but in some cases it can take up to 1-2 hours before you can see the commands. When registered, the commands should show up under the group name 'openai'. Enjoy!
 
-6. Try commands  
-Enter a slash (/), and the commands should show up under the group name 'openai'. Enjoy!
-
----
-
-You can modify the names of the environment variables yourself if the naming doesn't suit you. Just search for the given names in the source code and modify them, and then match the new names with the environment variables.
